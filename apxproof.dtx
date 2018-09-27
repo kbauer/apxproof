@@ -24,7 +24,7 @@
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[2005/12/01]
 %<package>\ProvidesPackage{apxproof}
-%<package>  [2018/05/10 v1.0.6-dev Automatic proofs in appendix]
+%<package>  [2018/08/08 v1.1.0-dev Automatic proofs in appendix]
 %
 %<*driver>
 \documentclass{ltxdoc}
@@ -45,7 +45,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{711}
+% \CheckSum{716}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -583,7 +583,7 @@ This is a citation in the appendix~\cite{proofsAreHard}.
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\axp@repeqn}
-% \changes{v1.0.6-dev}{2018/07/20}{\texttt{repeqn} option}
+% \changes{v1.1.0}{2018/07/20}{\texttt{repeqn} option}
 %    \begin{macrocode}
 \DeclareStringOption[same]{repeqn}
 %    \end{macrocode}
@@ -692,7 +692,7 @@ This is a citation in the appendix~\cite{proofsAreHard}.
 % \begin{macro}{\appendixprelim}
 % \changes{v1.0.4}{2017/03/03}{Configurable appendix style}
 % \begin{macro}{\appendixsectionformat}
-% \changes{v1.0.6-dev}{2018/07/17}{Fix missing space in default
+% \changes{v1.1.0}{2018/07/17}{Fix missing space in default
 % \cs{appendixsectionformat}}
 % We provide sensible defaults for these four user-customizable macros.
 % Even though they are only useful in append mode, we define them for
@@ -721,7 +721,7 @@ This is a citation in the appendix~\cite{proofsAreHard}.
 % |\label@in@display|) for equations within repeated theorems, depending on the
 % compilation mode.
 % \begin{macro}{\axp@redefinelabels}
-% \changes{v1.0.6-dev}{2018/07/04}{Fix \cs{label} not being disabled
+% \changes{v1.1.0}{2018/07/04}{Fix \cs{label} not being disabled
 % in \textsf{amsmath} environments, where \cs{label@in@display} is
 % used instead (K. D. Bauer)}
 %    \begin{macrocode}  
@@ -858,7 +858,7 @@ This is a citation in the appendix~\cite{proofsAreHard}.
 % \begin{macro}{\axp@proofsfile}  
 % We open a new auxiliary file, with extension |.axp|, where the appendix
 % material will be dumped.  
-% \changes{v1.0.6-dev}{2018/07/11}{Initialization deferred to \cs{AtBeginDocument}
+% \changes{v1.1.0}{2018/07/11}{Initialization deferred to \cs{AtBeginDocument}
 % for compatibility with \cs{dump}ed precompiled preambles (K. D.
 % Bauer)}
 %    \begin{macrocode}  
@@ -1024,7 +1024,7 @@ This is a citation in the appendix~\cite{proofsAreHard}.
 % \end{macro}  
 % 
 %    \subsubsection{Forward-Linking Mechanism}
-% \changes{v1.0.6-dev}{2018/07/02}{Added forward-link mechanism (K. D. Bauer)}
+% \changes{v1.1.0}{2018/07/02}{Added forward-link mechanism (K. D. Bauer)}
 % 
 % When hyperref is loaded, |foobarrep| environments
 % in the main text have their number link to their
@@ -1052,6 +1052,8 @@ This is a citation in the appendix~\cite{proofsAreHard}.
 % in the |.aux| file, so we need to to be able to disable
 % addition of the hyperlink, which is why we use an
 % intermediate |\axp@forward@link|\marg{target}\marg{text} macro,
+% We also redefine |\theHfoobar| which is used by |hyperref| but not
+% defined if |hyperref| was loaded after |\newtheoremrep| was used.
 % and |\protect| it to output it verbatim into the |.aux| file.
 % 
 % These hyperlinks are of course disabled in the |strip| compilation
@@ -1062,6 +1064,7 @@ This is a citation in the appendix~\cite{proofsAreHard}.
        \global\booltrue{axp@forward}%
        \ifcsundef{axp@old@the\csname axp@cn@#1\endcsname}{%
          \csletcs{axp@old@the\csname axp@cn@#1\endcsname}{the\csname axp@cn@#1\endcsname}%
+         \csletcs{theH\csname axp@cn@#1\endcsname}{the\csname axp@cn@#1\endcsname}%
          \csdef{the\csname axp@cn@#1\endcsname}{%
            \protect\axp@forward@link{axp@fw@r\roman{axp@rpcounter}}%
              {\csname axp@old@the\csname axp@cn@#1\endcsname\endcsname}%
@@ -1226,9 +1229,9 @@ This is a citation in the appendix~\cite{proofsAreHard}.
 % \end{macro}  
 % \begin{macro}{\axp@oldsection}
 % \begin{macro}{\section}
-% \changes{v1.0.6-dev}{2018/07/25}{Rewrote definition of \cs{section}
+% \changes{v1.1.0}{2018/07/25}{Rewrote definition of \cs{section}
 % to enable optional argument. See \#23. (K. D. Bauer)}
-% \changes{v1.0.6-dev}{2018/07/25}{Fix handling of fragile macros within
+% \changes{v1.1.0}{2018/07/25}{Fix handling of fragile macros within
 % section headings. See \#22.}
 % \begin{macro}{\@section}
 % \begin{macro}{\@@section}
@@ -1280,7 +1283,7 @@ This is a citation in the appendix~\cite{proofsAreHard}.
 % 
 % \changes{v1.0.6}{2018/05/10}{Fix extraneous space after section number
 % in appendix titles}
-% \changes{v1.0.6-dev}{2018/07/09}{Make \cs{axp@tmp} wrapper more robust.
+% \changes{v1.1.0}{2018/07/09}{Make \cs{axp@tmp} wrapper more robust.
 % Resolves issues from use of section title in \textsf{fancyhdr}, 
 % and in \cs{tableofcontents} (K. D. Bauer).}
 %    \begin{macrocode}  
@@ -1314,7 +1317,7 @@ This is a citation in the appendix~\cite{proofsAreHard}.
 %   
 % \begin{macro}{\axp@oldtableofcontents}
 % \begin{macro}{\tableofcontents}
-% \changes{v1.0.6-dev}{2018/07/09}{Disable section management for table
+% \changes{v1.1.0}{2018/07/09}{Disable section management for table
 % of contents}
 %    \begin{macrocode}  
   \let\axp@oldtableofcontents\tableofcontents
